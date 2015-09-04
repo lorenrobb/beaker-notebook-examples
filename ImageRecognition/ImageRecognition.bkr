@@ -69,6 +69,10 @@
                 "",
                 "#### where **lettername** is an alphabet symbol or digit contained in a given file, **uid** - unique identifier",
                 "",
+                "## Sample images can be found on [Github](https://github.com/twosigma/beaker-notebook-examples/tree/master/ImageRecognition)  ",
+                "",
+                "",
+                "",
                 ""
             ],
             "evaluatorReader": false
@@ -101,8 +105,8 @@
                 "state": {},
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
-                "elapsedTime": 333
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
+                "elapsedTime": 337
             },
             "evaluatorReader": true,
             "lineCount": 8
@@ -134,8 +138,8 @@
                 "state": {},
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
-                "elapsedTime": 300
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
+                "elapsedTime": 335
             },
             "evaluatorReader": true,
             "lineCount": 7
@@ -170,7 +174,7 @@
                 "state": {},
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
                 "elapsedTime": 962
             },
             "evaluatorReader": true,
@@ -200,8 +204,8 @@
                 "state": {},
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
-                "elapsedTime": 312
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
+                "elapsedTime": 295
             },
             "evaluatorReader": true,
             "lineCount": 4
@@ -265,8 +269,8 @@
                 },
                 "selectedType": "Results",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
-                "elapsedTime": 825
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
+                "elapsedTime": 5034
             },
             "evaluatorReader": true,
             "lineCount": 21
@@ -326,8 +330,8 @@
                 },
                 "selectedType": "Results",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
-                "elapsedTime": 8475
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
+                "elapsedTime": 394
             },
             "evaluatorReader": true,
             "lineCount": 21
@@ -388,11 +392,14 @@
                 },
                 "selectedType": "Results",
                 "pluginName": "IPython",
-                "shellId": "91739D86CF6243B988D629F345804556",
-                "elapsedTime": 392
+                "shellId": "6AC7658594F649DB8028A2A5677D1ACD",
+                "elapsedTime": 619
             },
             "evaluatorReader": true,
             "lineCount": 22
         }
-    ]
+    ],
+    "metadata": {
+        "publication-id": "55ddde97-c2bf-42c1-95ba-4a98489445fa"
+    }
 }
