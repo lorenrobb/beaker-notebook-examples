@@ -68,11 +68,13 @@
                 "# Site analytics Notebook",
                 "## Notebook uses Google analytics api for statistical data calculations.",
                 "## Important notes:",
+                "* Need to install **The Google API Client Library for Python** (pip install --upgrade google-api-python-client)",
                 "* Need to create Google Service account and put p12 security key (rename it to service-key.p12) into **RESOURCES_FILE_PATH** folder",
                 "* Need to create Google Analytics View and change **ANALYTICS_VIEW_ID** to the specific View ID",
                 "* Need to provide Google Service account email (**SERVICE_ACCOUNT_EMAIL** variable)",
                 "* Need to add Service account email to allowed users in Permission section of the specified Analytics View",
-                "* Some Events can be excluded from the result bu modifying **EXCLUDED_EVENT_CATEGORIES** variable"
+                "* Some Events can be excluded from the result bu modifying **EXCLUDED_EVENT_CATEGORIES** variable",
+                "* Some Sources can be excluded from the result bu modifying **EXCLUDED_SOURCES** variable"
             ],
             "evaluatorReader": false
         },
@@ -90,6 +92,7 @@
                     "statisticsDaysRange = 7",
                     "ANALYTICS_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly'",
                     "EXCLUDED_EVENT_CATEGORIES = ['to use this feature visit: EVENT-TRACKING.COM']",
+                    "EXCLUDED_SOURCES = ['127.0.0.1:8801', '(direct)']",
                     ""
                 ]
             },
@@ -98,10 +101,10 @@
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
                 "shellId": "2A685010F7FC4C7585C5391471F546E5",
-                "elapsedTime": 750
+                "elapsedTime": 1407
             },
             "evaluatorReader": true,
-            "lineCount": 9
+            "lineCount": 10
         },
         {
             "id": "sectionAPAp07",
@@ -151,10 +154,423 @@
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
                 "shellId": "2A685010F7FC4C7585C5391471F546E5",
-                "elapsedTime": 1429
+                "elapsedTime": 1385
             },
             "evaluatorReader": true,
             "lineCount": 19
+        },
+        {
+            "id": "sectionR8KlCB",
+            "type": "section",
+            "title": "Displaying list of referrals",
+            "level": 2,
+            "evaluatorReader": false,
+            "collapsed": false
+        },
+        {
+            "id": "markdownp8Kki0",
+            "type": "markdown",
+            "body": [
+                "Displays the table of site referrals and sources (excluding some user-defined sources)"
+            ],
+            "evaluatorReader": false
+        },
+        {
+            "id": "codezZ00pR",
+            "type": "code",
+            "evaluator": "IPython",
+            "input": {
+                "body": [
+                    "import datetime",
+                    "import pandas",
+                    "",
+                    "def getReferrals(service):  ",
+                    "  end_date = datetime.date.today() ",
+                    "  start_date = end_date - datetime.timedelta(days=statisticsDaysRange)  ",
+                    "  filter = ';'.join(map(lambda row: 'ga:source!=' + row, EXCLUDED_SOURCES)) ",
+                    "  data_query = service.data().ga().get(",
+                    "      ids= 'ga:' + ANALYTICS_VIEW_ID,      ",
+                    "      dimensions= 'ga:referralPath, ga:source',",
+                    "      metrics= 'ga:pageviews',",
+                    "      start_date= start_date.strftime('%Y-%m-%d'),",
+                    "      end_date= end_date.strftime('%Y-%m-%d'),",
+                    "      filters= filter,",
+                    "      sort= '-ga:pageviews'",
+                    "  )    ",
+                    "  analytics_data = data_query.execute()",
+                    "  return analytics_data",
+                    "",
+                    "dataRows = getReferrals(service).get('rows')",
+                    "referrals = [(row[0], row[1], row[2]) for row in dataRows]",
+                    "",
+                    "df = pandas.DataFrame(referrals, columns=['Referral Path', 'Source', 'Page visits'])",
+                    "df"
+                ]
+            },
+            "output": {
+                "state": {},
+                "result": {
+                    "columnNames": [
+                        "Index",
+                        "Referral Path",
+                        "Source",
+                        "Page visits"
+                    ],
+                    "subtype": "TableDisplay",
+                    "values": [
+                        [
+                            0,
+                            "(not set)",
+                            "google",
+                            "1150"
+                        ],
+                        [
+                            1,
+                            "/careers/life-at-two-sigma/open-source",
+                            "twosigma.com",
+                            "131"
+                        ],
+                        [
+                            2,
+                            "/",
+                            "seo-platform.com",
+                            "113"
+                        ],
+                        [
+                            3,
+                            "/",
+                            "news.ycombinator.com",
+                            "111"
+                        ],
+                        [
+                            4,
+                            "/gurdolSIYp",
+                            "t.co",
+                            "90"
+                        ],
+                        [
+                            5,
+                            "/",
+                            "traffic2money.com",
+                            "87"
+                        ],
+                        [
+                            6,
+                            "/questions/23640754/groovy-notebook-equivalent-to-ipython-notebook",
+                            "stackoverflow.com",
+                            "41"
+                        ],
+                        [
+                            7,
+                            "/demo/VisTools",
+                            "keshif.me",
+                            "32"
+                        ],
+                        [
+                            8,
+                            "/tech/beaker-notebook",
+                            "producthunt.com",
+                            "32"
+                        ],
+                        [
+                            9,
+                            "/subscribe/post",
+                            "beakernotebook.us3.list-manage.com",
+                            "28"
+                        ],
+                        [
+                            10,
+                            "(not set)",
+                            "bing",
+                            "27"
+                        ],
+                        [
+                            11,
+                            "/gist/anonymous/e21582541d7c1fe60eb4",
+                            "sharing.beakernotebook.com",
+                            "26"
+                        ],
+                        [
+                            12,
+                            "/",
+                            "qualitymarketzone.com",
+                            "24"
+                        ],
+                        [
+                            13,
+                            "/about.html",
+                            "scottdraves.com",
+                            "19"
+                        ],
+                        [
+                            14,
+                            "/embed/comments/",
+                            "disqus.com",
+                            "18"
+                        ],
+                        [
+                            15,
+                            "/url",
+                            "plus.url.google.com",
+                            "18"
+                        ],
+                        [
+                            16,
+                            "/blog/2015/02/27/create-an-ad-hoc-spark-cluster/",
+                            "infolace.com",
+                            "16"
+                        ],
+                        [
+                            17,
+                            "/try.php",
+                            "success-seo.com",
+                            "12"
+                        ],
+                        [
+                            18,
+                            "/t/data-science-hiquda",
+                            "scoop.it",
+                            "11"
+                        ],
+                        [
+                            19,
+                            "/r/Python/comments/33ln2b/rodeo_a_data_science_ide_for_python/",
+                            "reddit.com",
+                            "10"
+                        ],
+                        [
+                            20,
+                            "/r/datascience/comments/3jj4y5/do_you_use_ipynb_or_an_ide_for_data_science/",
+                            "reddit.com",
+                            "9"
+                        ],
+                        [
+                            21,
+                            "/beaker-notebook",
+                            "startupranking.com",
+                            "8"
+                        ],
+                        [
+                            22,
+                            "/redirect",
+                            "flipboard.com",
+                            "8"
+                        ],
+                        [
+                            23,
+                            "/resources/",
+                            "visualisingdata.com",
+                            "8"
+                        ],
+                        [
+                            24,
+                            "/",
+                            "sharing.beakernotebook.com",
+                            "6"
+                        ],
+                        [
+                            25,
+                            "/m/blogpost",
+                            "datasciencecentral.com",
+                            "6"
+                        ],
+                        [
+                            26,
+                            "/t/data-hacking",
+                            "scoop.it",
+                            "6"
+                        ],
+                        [
+                            27,
+                            "/",
+                            "site7.free-floating-buttons.com",
+                            "5"
+                        ],
+                        [
+                            28,
+                            "/",
+                            "duckduckgo.com",
+                            "4"
+                        ],
+                        [
+                            29,
+                            "/",
+                            "lnkd.in",
+                            "4"
+                        ],
+                        [
+                            30,
+                            "/",
+                            "whoishiring.it",
+                            "4"
+                        ],
+                        [
+                            31,
+                            "/2015/02/19/ibash-notebook.html",
+                            "jeroenjanssens.com",
+                            "4"
+                        ],
+                        [
+                            32,
+                            "/84kXhHqUyk",
+                            "t.co",
+                            "4"
+                        ],
+                        [
+                            33,
+                            "/dichika/20141109/p1",
+                            "d.hatena.ne.jp",
+                            "4"
+                        ],
+                        [
+                            34,
+                            "/portfolio.html",
+                            "scottdraves.com",
+                            "4"
+                        ],
+                        [
+                            35,
+                            "/publications.html",
+                            "127.0.0.1:9000",
+                            "4"
+                        ],
+                        [
+                            36,
+                            "/subscribe/post",
+                            "beakernotebook.us3.list-manage1.com",
+                            "3"
+                        ],
+                        [
+                            37,
+                            "(not set)",
+                            "twitter.com",
+                            "2"
+                        ],
+                        [
+                            38,
+                            "/",
+                            "reddit.com",
+                            "2"
+                        ],
+                        [
+                            39,
+                            "/dTOhG6nQ5W",
+                            "t.co",
+                            "2"
+                        ],
+                        [
+                            40,
+                            "/faq",
+                            "sharing.beakernotebook.com",
+                            "2"
+                        ],
+                        [
+                            41,
+                            "/gist/anonymous/0011b0de11a671e1a102",
+                            "sharing.beakernotebook.com",
+                            "2"
+                        ],
+                        [
+                            42,
+                            "/gist/anonymous/b02f32043b02cbaf003a",
+                            "sharing.beakernotebook.com",
+                            "2"
+                        ],
+                        [
+                            43,
+                            "/hMhQKvlUYL",
+                            "t.co",
+                            "2"
+                        ],
+                        [
+                            44,
+                            "/hc/en-us/articles/206312395-Using-interactive-tools",
+                            "support.dominodatalab.com",
+                            "2"
+                        ],
+                        [
+                            45,
+                            "/l.php",
+                            "l.facebook.com",
+                            "2"
+                        ],
+                        [
+                            46,
+                            "/l/",
+                            "r.duckduckgo.com",
+                            "2"
+                        ],
+                        [
+                            47,
+                            "/mvybV1PD2G",
+                            "t.co",
+                            "2"
+                        ],
+                        [
+                            48,
+                            "/pythonsd/messages/boards/thread/48700247",
+                            "meetup.com",
+                            "2"
+                        ],
+                        [
+                            49,
+                            "/software/beaker-notebook/",
+                            "alternativeto.net",
+                            "2"
+                        ],
+                        [
+                            50,
+                            "/tWPvPbNyjr",
+                            "t.co",
+                            "2"
+                        ],
+                        [
+                            51,
+                            "/",
+                            "site4.free-floating-buttons.com",
+                            "1"
+                        ],
+                        [
+                            52,
+                            "/2014/05/20/beaker-allows-data-exploration-in-various-languages/",
+                            "flowingdata.com",
+                            "1"
+                        ],
+                        [
+                            53,
+                            "/D2nGml696A",
+                            "t.co",
+                            "1"
+                        ],
+                        [
+                            54,
+                            "/I3riesT9Vs",
+                            "t.co",
+                            "1"
+                        ],
+                        [
+                            55,
+                            "/twosigma/beaker-notebook",
+                            "github.com",
+                            "1"
+                        ]
+                    ],
+                    "hasIndex": "true",
+                    "type": "TableDisplay",
+                    "types": [
+                        "integer",
+                        "string",
+                        "string",
+                        "string"
+                    ]
+                },
+                "selectedType": "Table",
+                "pluginName": "IPython",
+                "shellId": "2A685010F7FC4C7585C5391471F546E5",
+                "elapsedTime": 692
+            },
+            "evaluatorReader": true,
+            "lineCount": 24
         },
         {
             "id": "section5k2oBR",
@@ -183,12 +599,14 @@
                     "def getPageviews(service):  ",
                     "  end_date = datetime.date.today() ",
                     "  start_date = end_date - datetime.timedelta(days=statisticsDaysRange)  ",
+                    "  filter = ';'.join(map(lambda row: 'ga:source!=' + row, EXCLUDED_SOURCES)) ",
                     "  data_query = service.data().ga().get(",
                     "      ids= 'ga:' + ANALYTICS_VIEW_ID,      ",
                     "      dimensions= 'ga:dateHour',",
                     "      metrics= 'ga:pageviews',",
                     "      start_date= start_date.strftime('%Y-%m-%d'),",
                     "      end_date= end_date.strftime('%Y-%m-%d'),",
+                    "      filters= filter,",
                     "      sort= 'ga:dateHour'",
                     "  )    ",
                     "  analytics_data = data_query.execute()",
@@ -202,10 +620,10 @@
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
                 "shellId": "2A685010F7FC4C7585C5391471F546E5",
-                "elapsedTime": 785
+                "elapsedTime": 925
             },
             "evaluatorReader": true,
-            "lineCount": 17
+            "lineCount": 19
         },
         {
             "id": "markdowngDB201",
@@ -239,7 +657,7 @@
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
                 "shellId": "2A685010F7FC4C7585C5391471F546E5",
-                "elapsedTime": 646
+                "elapsedTime": 1055
             },
             "evaluatorReader": true,
             "lineCount": 11
@@ -298,7 +716,7 @@
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
                 "shellId": "2A685010F7FC4C7585C5391471F546E5",
-                "elapsedTime": 670
+                "elapsedTime": 861
             },
             "evaluatorReader": true,
             "lineCount": 25
@@ -341,7 +759,7 @@
                 "selectedType": "Hidden",
                 "pluginName": "IPython",
                 "shellId": "2A685010F7FC4C7585C5391471F546E5",
-                "elapsedTime": 709
+                "elapsedTime": 873
             },
             "evaluatorReader": true,
             "lineCount": 17
@@ -400,7 +818,7 @@
                 "selectedType": "Hidden",
                 "pluginName": "Groovy",
                 "shellId": "670ae0be-6dda-477b-ae3c-0b455062f695",
-                "elapsedTime": 902
+                "elapsedTime": 1077
             },
             "evaluatorReader": true,
             "lineCount": 33
@@ -450,8 +868,8 @@
             "output": {
                 "state": {},
                 "result": {
-                    "update_id": "99204618-1508-4254-984c-c2944cfa3142",
-                    "update_time": 1441725498101,
+                    "update_id": "03a95bb9-1635-48f0-affa-c4f8fa7cb4a6",
+                    "update_time": 1441729098757,
                     "type": "BeakerDashboard",
                     "thestyle": "width: 100%",
                     "rows": [
@@ -590,7 +1008,6 @@
                                                         1441468800000,
                                                         1441476000000,
                                                         1441479600000,
-                                                        1441483200000,
                                                         1441486800000,
                                                         1441490400000,
                                                         1441494000000,
@@ -609,7 +1026,6 @@
                                                         1441540800000,
                                                         1441544400000,
                                                         1441548000000,
-                                                        1441551600000,
                                                         1441555200000,
                                                         1441558800000,
                                                         1441562400000,
@@ -650,187 +1066,187 @@
                                                         1441688400000,
                                                         1441692000000,
                                                         1441695600000,
-                                                        1441699200000
+                                                        1441699200000,
+                                                        1441702800000
                                                     ],
                                                     "y": [
-                                                        "14",
+                                                        "6",
                                                         "15",
                                                         "4",
                                                         "4",
                                                         "12",
-                                                        "11",
+                                                        "9",
                                                         "20",
-                                                        "11",
+                                                        "9",
                                                         "3",
-                                                        "32",
-                                                        "41",
-                                                        "39",
-                                                        "43",
                                                         "24",
-                                                        "14",
+                                                        "30",
                                                         "35",
-                                                        "28",
-                                                        "29",
                                                         "36",
+                                                        "14",
+                                                        "12",
+                                                        "31",
+                                                        "18",
+                                                        "16",
+                                                        "29",
                                                         "4",
                                                         "10",
-                                                        "23",
-                                                        "8",
-                                                        "5",
+                                                        "17",
+                                                        "6",
+                                                        "1",
+                                                        "20",
+                                                        "9",
                                                         "24",
                                                         "11",
-                                                        "32",
-                                                        "13",
-                                                        "14",
-                                                        "33",
-                                                        "26",
-                                                        "18",
-                                                        "29",
+                                                        "12",
                                                         "27",
-                                                        "16",
-                                                        "66",
-                                                        "46",
-                                                        "43",
-                                                        "14",
-                                                        "25",
-                                                        "29",
-                                                        "22",
-                                                        "15",
+                                                        "12",
                                                         "18",
-                                                        "22",
+                                                        "25",
+                                                        "21",
+                                                        "14",
+                                                        "36",
+                                                        "41",
+                                                        "33",
+                                                        "8",
+                                                        "23",
+                                                        "16",
+                                                        "16",
+                                                        "8",
+                                                        "16",
+                                                        "14",
                                                         "4",
                                                         "9",
-                                                        "14",
+                                                        "12",
                                                         "8",
                                                         "7",
+                                                        "11",
+                                                        "3",
+                                                        "2",
+                                                        "9",
+                                                        "8",
+                                                        "7",
+                                                        "7",
+                                                        "11",
+                                                        "17",
+                                                        "19",
+                                                        "37",
+                                                        "22",
+                                                        "21",
+                                                        "17",
+                                                        "24",
+                                                        "14",
+                                                        "16",
+                                                        "12",
+                                                        "3",
+                                                        "15",
+                                                        "5",
+                                                        "2",
+                                                        "3",
+                                                        "2",
+                                                        "5",
+                                                        "4",
+                                                        "6",
+                                                        "10",
+                                                        "9",
+                                                        "21",
+                                                        "9",
+                                                        "17",
+                                                        "29",
+                                                        "19",
+                                                        "27",
+                                                        "32",
+                                                        "3",
+                                                        "31",
+                                                        "8",
+                                                        "14",
+                                                        "4",
+                                                        "4",
+                                                        "6",
+                                                        "4",
+                                                        "16",
+                                                        "9",
+                                                        "12",
+                                                        "6",
                                                         "13",
+                                                        "1",
+                                                        "2",
+                                                        "4",
+                                                        "9",
+                                                        "9",
+                                                        "7",
+                                                        "9",
+                                                        "9",
+                                                        "23",
+                                                        "8",
+                                                        "5",
+                                                        "12",
+                                                        "1",
+                                                        "9",
+                                                        "6",
+                                                        "20",
+                                                        "4",
+                                                        "3",
+                                                        "5",
+                                                        "10",
+                                                        "6",
                                                         "3",
                                                         "4",
+                                                        "4",
+                                                        "3",
+                                                        "2",
                                                         "13",
-                                                        "16",
-                                                        "7",
-                                                        "13",
-                                                        "13",
-                                                        "19",
-                                                        "19",
-                                                        "57",
+                                                        "12",
+                                                        "4",
                                                         "22",
-                                                        "23",
-                                                        "23",
-                                                        "28",
-                                                        "14",
-                                                        "20",
-                                                        "12",
-                                                        "5",
                                                         "18",
-                                                        "5",
-                                                        "2",
-                                                        "4",
-                                                        "9",
-                                                        "5",
-                                                        "4",
-                                                        "8",
-                                                        "12",
-                                                        "15",
-                                                        "27",
-                                                        "11",
-                                                        "23",
-                                                        "33",
-                                                        "27",
-                                                        "33",
-                                                        "40",
-                                                        "5",
-                                                        "37",
-                                                        "8",
-                                                        "16",
                                                         "6",
-                                                        "8",
-                                                        "6",
-                                                        "10",
-                                                        "20",
-                                                        "9",
-                                                        "14",
-                                                        "10",
-                                                        "15",
-                                                        "5",
-                                                        "4",
-                                                        "10",
-                                                        "9",
-                                                        "13",
-                                                        "9",
-                                                        "15",
-                                                        "11",
-                                                        "25",
-                                                        "12",
-                                                        "7",
-                                                        "14",
-                                                        "9",
-                                                        "9",
-                                                        "8",
-                                                        "20",
-                                                        "4",
-                                                        "9",
-                                                        "4",
-                                                        "5",
-                                                        "17",
-                                                        "10",
-                                                        "5",
-                                                        "4",
-                                                        "6",
-                                                        "5",
-                                                        "2",
-                                                        "13",
-                                                        "16",
-                                                        "8",
-                                                        "26",
-                                                        "20",
-                                                        "8",
                                                         "1",
                                                         "5",
                                                         "2",
-                                                        "16",
+                                                        "12",
                                                         "4",
                                                         "6",
-                                                        "6",
-                                                        "9",
-                                                        "28",
-                                                        "15",
-                                                        "11",
-                                                        "17",
+                                                        "3",
+                                                        "20",
                                                         "13",
-                                                        "18",
+                                                        "9",
+                                                        "17",
+                                                        "11",
                                                         "8",
-                                                        "31",
-                                                        "18",
-                                                        "21",
-                                                        "4",
+                                                        "6",
+                                                        "19",
+                                                        "14",
+                                                        "3",
+                                                        "2",
+                                                        "12",
                                                         "14",
                                                         "20",
-                                                        "26",
+                                                        "3",
+                                                        "8",
                                                         "13",
                                                         "8",
-                                                        "22",
-                                                        "32",
                                                         "7",
                                                         "12",
-                                                        "19",
-                                                        "8",
-                                                        "14",
-                                                        "21",
-                                                        "10",
-                                                        "10",
-                                                        "13",
-                                                        "26",
-                                                        "7",
-                                                        "9",
-                                                        "13",
-                                                        "13",
-                                                        "3",
+                                                        "15",
                                                         "6",
-                                                        "16",
-                                                        "34",
-                                                        "25",
-                                                        "48"
+                                                        "14",
+                                                        "13",
+                                                        "4",
+                                                        "10",
+                                                        "7",
+                                                        "20",
+                                                        "3",
+                                                        "5",
+                                                        "7",
+                                                        "6",
+                                                        "2",
+                                                        "4",
+                                                        "12",
+                                                        "24",
+                                                        "15",
+                                                        "30",
+                                                        "4"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "Pageviews",
@@ -897,160 +1313,66 @@
                                                 {
                                                     "type": "Line",
                                                     "x": [
-                                                        "03",
-                                                        "06",
                                                         "09",
-                                                        "11",
-                                                        "12",
-                                                        "17",
-                                                        "20",
+                                                        "14",
                                                         "22",
                                                         "24",
-                                                        "26",
                                                         "29"
                                                     ],
                                                     "y": [
                                                         "2",
                                                         "2",
-                                                        "4",
-                                                        "1",
-                                                        "1",
                                                         "2",
                                                         "2",
-                                                        "1",
-                                                        "2",
-                                                        "2",
-                                                        "2"
+                                                        "4"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "/",
-                                                    "color": "#FF5D0A64",
+                                                    "color": "#FFCFB482",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 },
                                                 {
                                                     "type": "Line",
                                                     "x": [
-                                                        "19"
+                                                        "28"
                                                     ],
                                                     "y": [
-                                                        "2"
-                                                    ],
-                                                    "visible": true,
-                                                    "display_name": "/careers",
-                                                    "color": "#FF129A05",
-                                                    "width": 1.5,
-                                                    "yAxis": null
-                                                },
-                                                {
-                                                    "type": "Line",
-                                                    "x": [
-                                                        "09",
-                                                        "11"
-                                                    ],
-                                                    "y": [
-                                                        "2",
-                                                        "2"
-                                                    ],
-                                                    "visible": true,
-                                                    "display_name": "/community",
-                                                    "color": "#FFAF89C1",
-                                                    "width": 1.5,
-                                                    "yAxis": null
-                                                },
-                                                {
-                                                    "type": "Line",
-                                                    "x": [
-                                                        "09",
-                                                        "10",
-                                                        "13"
-                                                    ],
-                                                    "y": [
-                                                        "2",
-                                                        "4",
                                                         "2"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "/examples",
-                                                    "color": "#FF3739CC",
+                                                    "color": "#FF5DFA6E",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 },
                                                 {
                                                     "type": "Line",
                                                     "x": [
-                                                        "08"
+                                                        "11",
+                                                        "15"
                                                     ],
                                                     "y": [
+                                                        "2",
                                                         "2"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "/faq",
-                                                    "color": "#FFB81143",
+                                                    "color": "#FFFBAFE4",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 },
                                                 {
                                                     "type": "Line",
                                                     "x": [
-                                                        "11",
-                                                        "18"
-                                                    ],
-                                                    "y": [
-                                                        "6",
-                                                        "2"
-                                                    ],
-                                                    "visible": true,
-                                                    "display_name": "/features",
-                                                    "color": "#FF2D6247",
-                                                    "width": 1.5,
-                                                    "yAxis": null
-                                                },
-                                                {
-                                                    "type": "Line",
-                                                    "x": [
-                                                        "09",
-                                                        "10",
-                                                        "11",
-                                                        "18"
-                                                    ],
-                                                    "y": [
-                                                        "2",
-                                                        "2",
-                                                        "2",
-                                                        "2"
-                                                    ],
-                                                    "visible": true,
-                                                    "display_name": "/getting-started",
-                                                    "color": "#FF3533CB",
-                                                    "width": 1.5,
-                                                    "yAxis": null
-                                                },
-                                                {
-                                                    "type": "Line",
-                                                    "x": [
-                                                        "09"
-                                                    ],
-                                                    "y": [
-                                                        "4"
-                                                    ],
-                                                    "visible": true,
-                                                    "display_name": "/getting-started?scroll=",
-                                                    "color": "#FF5576F6",
-                                                    "width": 1.5,
-                                                    "yAxis": null
-                                                },
-                                                {
-                                                    "type": "Line",
-                                                    "x": [
-                                                        "18"
+                                                        "13"
                                                     ],
                                                     "y": [
                                                         "2"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "/index",
-                                                    "color": "#FF21D09E",
+                                                    "color": "#FF455A82",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 }
@@ -1171,7 +1493,7 @@
                                                     ],
                                                     "visible": true,
                                                     "display_name": "Careers",
-                                                    "color": "#FFE6FBE5",
+                                                    "color": "#FF2508A9",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 },
@@ -1285,7 +1607,8 @@
                                                         1441710000000,
                                                         1441713600000,
                                                         1441717200000,
-                                                        1441720800000
+                                                        1441720800000,
+                                                        1441724400000
                                                     ],
                                                     "y": [
                                                         "1",
@@ -1395,11 +1718,12 @@
                                                         "2",
                                                         "3",
                                                         "3",
-                                                        "2"
+                                                        "4",
+                                                        "1"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "Examples",
-                                                    "color": "#FF34365B",
+                                                    "color": "#FFF902C7",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 },
@@ -1485,7 +1809,8 @@
                                                         1441688400000,
                                                         1441710000000,
                                                         1441717200000,
-                                                        1441720800000
+                                                        1441720800000,
+                                                        1441724400000
                                                     ],
                                                     "y": [
                                                         "1",
@@ -1567,11 +1892,12 @@
                                                         "1",
                                                         "1",
                                                         "1",
+                                                        "1",
                                                         "1"
                                                     ],
                                                     "visible": true,
                                                     "display_name": "download",
-                                                    "color": "#FF662466",
+                                                    "color": "#FF6ABEAA",
                                                     "width": 1.5,
                                                     "yAxis": null
                                                 }
@@ -1633,7 +1959,7 @@
                 "selectedType": "BeakerDashboard",
                 "pluginName": "Groovy",
                 "shellId": "670ae0be-6dda-477b-ae3c-0b455062f695",
-                "elapsedTime": 221
+                "elapsedTime": 277
             },
             "evaluatorReader": true,
             "lineCount": 26
@@ -1821,7 +2147,6 @@
             1441468800000,
             1441476000000,
             1441479600000,
-            1441483200000,
             1441486800000,
             1441490400000,
             1441494000000,
@@ -1840,7 +2165,6 @@
             1441540800000,
             1441544400000,
             1441548000000,
-            1441551600000,
             1441555200000,
             1441558800000,
             1441562400000,
@@ -1881,187 +2205,187 @@
             1441688400000,
             1441692000000,
             1441695600000,
-            1441699200000
+            1441699200000,
+            1441702800000
         ],
         "pageviews": [
-            "14",
+            "6",
             "15",
             "4",
             "4",
             "12",
-            "11",
+            "9",
             "20",
-            "11",
+            "9",
             "3",
-            "32",
-            "41",
-            "39",
-            "43",
             "24",
-            "14",
+            "30",
             "35",
-            "28",
-            "29",
             "36",
+            "14",
+            "12",
+            "31",
+            "18",
+            "16",
+            "29",
             "4",
             "10",
-            "23",
-            "8",
-            "5",
+            "17",
+            "6",
+            "1",
+            "20",
+            "9",
             "24",
             "11",
-            "32",
-            "13",
-            "14",
-            "33",
-            "26",
-            "18",
-            "29",
+            "12",
             "27",
-            "16",
-            "66",
-            "46",
-            "43",
-            "14",
-            "25",
-            "29",
-            "22",
-            "15",
+            "12",
             "18",
-            "22",
+            "25",
+            "21",
+            "14",
+            "36",
+            "41",
+            "33",
+            "8",
+            "23",
+            "16",
+            "16",
+            "8",
+            "16",
+            "14",
             "4",
             "9",
-            "14",
+            "12",
             "8",
             "7",
+            "11",
+            "3",
+            "2",
+            "9",
+            "8",
+            "7",
+            "7",
+            "11",
+            "17",
+            "19",
+            "37",
+            "22",
+            "21",
+            "17",
+            "24",
+            "14",
+            "16",
+            "12",
+            "3",
+            "15",
+            "5",
+            "2",
+            "3",
+            "2",
+            "5",
+            "4",
+            "6",
+            "10",
+            "9",
+            "21",
+            "9",
+            "17",
+            "29",
+            "19",
+            "27",
+            "32",
+            "3",
+            "31",
+            "8",
+            "14",
+            "4",
+            "4",
+            "6",
+            "4",
+            "16",
+            "9",
+            "12",
+            "6",
             "13",
+            "1",
+            "2",
+            "4",
+            "9",
+            "9",
+            "7",
+            "9",
+            "9",
+            "23",
+            "8",
+            "5",
+            "12",
+            "1",
+            "9",
+            "6",
+            "20",
+            "4",
+            "3",
+            "5",
+            "10",
+            "6",
             "3",
             "4",
+            "4",
+            "3",
+            "2",
             "13",
-            "16",
-            "7",
-            "13",
-            "13",
-            "19",
-            "19",
-            "57",
+            "12",
+            "4",
             "22",
-            "23",
-            "23",
-            "28",
-            "14",
-            "20",
-            "12",
-            "5",
             "18",
-            "5",
-            "2",
-            "4",
-            "9",
-            "5",
-            "4",
-            "8",
-            "12",
-            "15",
-            "27",
-            "11",
-            "23",
-            "33",
-            "27",
-            "33",
-            "40",
-            "5",
-            "37",
-            "8",
-            "16",
             "6",
-            "8",
-            "6",
-            "10",
-            "20",
-            "9",
-            "14",
-            "10",
-            "15",
-            "5",
-            "4",
-            "10",
-            "9",
-            "13",
-            "9",
-            "15",
-            "11",
-            "25",
-            "12",
-            "7",
-            "14",
-            "9",
-            "9",
-            "8",
-            "20",
-            "4",
-            "9",
-            "4",
-            "5",
-            "17",
-            "10",
-            "5",
-            "4",
-            "6",
-            "5",
-            "2",
-            "13",
-            "16",
-            "8",
-            "26",
-            "20",
-            "8",
             "1",
             "5",
             "2",
-            "16",
+            "12",
             "4",
             "6",
-            "6",
-            "9",
-            "28",
-            "15",
-            "11",
-            "17",
+            "3",
+            "20",
             "13",
-            "18",
+            "9",
+            "17",
+            "11",
             "8",
-            "31",
-            "18",
-            "21",
-            "4",
+            "6",
+            "19",
+            "14",
+            "3",
+            "2",
+            "12",
             "14",
             "20",
-            "26",
+            "3",
+            "8",
             "13",
             "8",
-            "22",
-            "32",
             "7",
             "12",
-            "19",
-            "8",
-            "14",
-            "21",
-            "10",
-            "10",
-            "13",
-            "26",
-            "7",
-            "9",
-            "13",
-            "13",
-            "3",
+            "15",
             "6",
-            "16",
-            "34",
-            "25",
-            "48"
+            "14",
+            "13",
+            "4",
+            "10",
+            "7",
+            "20",
+            "3",
+            "5",
+            "7",
+            "6",
+            "2",
+            "4",
+            "12",
+            "24",
+            "15",
+            "30",
+            "4"
         ],
         "uniquePageviews": [
             "6",
@@ -6863,6 +7187,7 @@
                             "Examples",
                             "Examples",
                             "Examples",
+                            "Examples",
                             "Examples"
                         ],
                         [
@@ -6973,7 +7298,8 @@
                             "2015090808",
                             "2015090809",
                             "2015090810",
-                            "2015090811"
+                            "2015090811",
+                            "2015090812"
                         ],
                         [
                             "1",
@@ -7083,7 +7409,8 @@
                             "2",
                             "3",
                             "3",
-                            "2"
+                            "4",
+                            "1"
                         ]
                     ]
                 ]
@@ -7093,6 +7420,7 @@
                 [
                     [
                         [
+                            "download",
                             "download",
                             "download",
                             "download",
@@ -7254,7 +7582,8 @@
                             "2015090802",
                             "2015090808",
                             "2015090810",
-                            "2015090811"
+                            "2015090811",
+                            "2015090812"
                         ],
                         [
                             "1",
@@ -7332,6 +7661,7 @@
                             "1",
                             "2",
                             "2",
+                            "1",
                             "1",
                             "1",
                             "1",
@@ -9023,74 +9353,21 @@
                             "/",
                             "/",
                             "/",
-                            "/",
-                            "/",
-                            "/",
-                            "/",
-                            "/",
-                            "/",
                             "/"
                         ],
                         [
-                            "03",
-                            "06",
                             "09",
-                            "11",
-                            "12",
-                            "17",
-                            "20",
+                            "14",
                             "22",
                             "24",
-                            "26",
                             "29"
                         ],
                         [
                             "2",
                             "2",
-                            "4",
-                            "1",
-                            "1",
                             "2",
                             "2",
-                            "1",
-                            "2",
-                            "2",
-                            "2"
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "/careers",
-                [
-                    [
-                        [
-                            "/careers"
-                        ],
-                        [
-                            "19"
-                        ],
-                        [
-                            "2"
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "/community",
-                [
-                    [
-                        [
-                            "/community",
-                            "/community"
-                        ],
-                        [
-                            "09",
-                            "11"
-                        ],
-                        [
-                            "2",
-                            "2"
+                            "4"
                         ]
                     ]
                 ]
@@ -9100,18 +9377,12 @@
                 [
                     [
                         [
-                            "/examples",
-                            "/examples",
                             "/examples"
                         ],
                         [
-                            "09",
-                            "10",
-                            "13"
+                            "28"
                         ],
                         [
-                            "2",
-                            "4",
                             "2"
                         ]
                     ]
@@ -9122,73 +9393,16 @@
                 [
                     [
                         [
+                            "/faq",
                             "/faq"
                         ],
                         [
-                            "08"
-                        ],
-                        [
-                            "2"
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "/features",
-                [
-                    [
-                        [
-                            "/features",
-                            "/features"
-                        ],
-                        [
                             "11",
-                            "18"
+                            "15"
                         ],
                         [
-                            "6",
-                            "2"
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "/getting-started",
-                [
-                    [
-                        [
-                            "/getting-started",
-                            "/getting-started",
-                            "/getting-started",
-                            "/getting-started"
-                        ],
-                        [
-                            "09",
-                            "10",
-                            "11",
-                            "18"
-                        ],
-                        [
-                            "2",
-                            "2",
                             "2",
                             "2"
-                        ]
-                    ]
-                ]
-            ],
-            [
-                "/getting-started?scroll=",
-                [
-                    [
-                        [
-                            "/getting-started?scroll="
-                        ],
-                        [
-                            "09"
-                        ],
-                        [
-                            "4"
                         ]
                     ]
                 ]
@@ -9201,7 +9415,7 @@
                             "/index"
                         ],
                         [
-                            "18"
+                            "13"
                         ],
                         [
                             "2"
