@@ -8,8 +8,7 @@
                 "cm": {
                     "mode": "htmlmixed"
                 }
-            },
-            "shellID": null
+            }
         },
         {
             "name": "Latex",
@@ -18,8 +17,7 @@
                 "cm": {
                     "mode": "stex"
                 }
-            },
-            "shellID": null
+            }
         },
         {
             "name": "IPython",
@@ -31,7 +29,7 @@
                     "mode": "python"
                 }
             },
-            "shellID": "E7F3B1D611CF41ACBBCE083EFE645771"
+            "setup": "%matplotlib inline\nimport numpy\nimport matplotlib\nfrom matplotlib import pylab, mlab, pyplot\nnp = numpy\nplt = pyplot\nfrom IPython.display import display\nfrom IPython.core.pylabtools import figsize, getfigs\nfrom pylab import *\nfrom numpy import *\n"
         },
         {
             "name": "JavaScript",
@@ -43,8 +41,7 @@
                     "mode": "javascript",
                     "background": "#FFE0F0"
                 }
-            },
-            "shellID": null
+            }
         },
         {
             "name": "R",
@@ -53,8 +50,7 @@
                 "cm": {
                     "mode": "r"
                 }
-            },
-            "shellID": "f365977a-6a16-4c64-ba99-92d2d07e45c9"
+            }
         }
     ],
     "cells": [
@@ -69,13 +65,17 @@
         {
             "id": "textR4qnbx",
             "type": "text",
-            "body": "<div>This notebook was created by Ben Wellington, adapted from a blog post on IQuantNY, www.iquantny.com</div>You need ticket data:&nbsp;https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2014-August-/jt7v-77mi?",
+            "body": [
+                "<div>This notebook was created by Ben Wellington, adapted from a blog post on IQuantNY, www.iquantny.com</div>You need ticket data:&nbsp;https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2014-August-/jt7v-77mi?"
+            ],
             "evaluatorReader": false
         },
         {
             "id": "textTFTAXk",
             "type": "text",
-            "body": "This notebook provides an exploration of NYC Parking Ticket data, using basic statistics. The language of choice for this notebook is IPython, using the pandas library.",
+            "body": [
+                "This notebook provides an exploration of NYC Parking Ticket data, using basic statistics. The language of choice for this notebook is IPython, using the pandas library."
+            ],
             "evaluatorReader": false
         },
         {
@@ -83,7 +83,17 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "#Import the Parking Ticket Data\n\nfrom pandas  import *\nfrom numpy  import *\noptions.display.max_columns = 100\n\ndata = pandas.io.parsers.read_csv(\"/Users/beakertesting/Documents/Beaker Notebooks/Parking_Violations_Issued.csv\",quotechar='\"')\ndata\n                           "
+                "body": [
+                    "#Import the Parking Ticket Data",
+                    "",
+                    "from pandas  import *",
+                    "from numpy  import *",
+                    "options.display.max_columns = 100",
+                    "",
+                    "data = pandas.io.parsers.read_csv(\"/Users/beakertesting/Documents/Beaker Notebooks/Parking_Violations_Issued.csv\",quotechar='\"')",
+                    "data",
+                    "                           "
+                ]
             },
             "output": {
                 "selectedType": "Table",
@@ -5802,7 +5812,201 @@
                 },
                 "outputArrived": true,
                 "elapsedTime": 64342,
-                "state": {}
+                "state": {
+                    "datatablestate": {
+                        "pagination": {
+                            "use": true,
+                            "rowsToDisplay": 50,
+                            "fixLeft": false,
+                            "fixRight": false
+                        },
+                        "columnNames": [
+                            "",
+                            "Summons Number",
+                            "Plate ID",
+                            "Registration State",
+                            "Plate Type",
+                            "Issue Date",
+                            "Violation Code",
+                            "Vehicle Body Type",
+                            "Vehicle Make",
+                            "Issuing Agency",
+                            "Street Code1",
+                            "Street Code2",
+                            "Street Code3",
+                            "Vehicle Expiration Date",
+                            "Violation Location",
+                            "Violation Precinct",
+                            "Issuer Precinct",
+                            "Issuer Code",
+                            "Issuer Command",
+                            "Issuer Squad",
+                            "Violation Time",
+                            "Time First Observed",
+                            "Violation County",
+                            "Violation In Front Of Or Opposite",
+                            "House Number",
+                            "Street Name",
+                            "Intersecting Street",
+                            "Date First Observed",
+                            "Law Section",
+                            "Sub Division",
+                            "Violation Legal Code",
+                            "Days Parking In Effect    ",
+                            "From Hours In Effect",
+                            "To Hours In Effect",
+                            "Vehicle Color",
+                            "Unregistered Vehicle?",
+                            "Vehicle Year",
+                            "Meter Number",
+                            "Feet From Curb",
+                            "Violation Post Code",
+                            "Violation Description",
+                            "No Standing or Stopping Violation",
+                            "Hydrant Violation",
+                            "Double Parking Violation"
+                        ],
+                        "actualalign": [
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L"
+                        ],
+                        "colorder": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24,
+                            25,
+                            26,
+                            27,
+                            28,
+                            29,
+                            30,
+                            31,
+                            32,
+                            33,
+                            34,
+                            35,
+                            36,
+                            37,
+                            38,
+                            39,
+                            40,
+                            41,
+                            42,
+                            43,
+                            44
+                        ],
+                        "getCellSho": [
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true
+                        ]
+                    }
+                }
             },
             "evaluatorReader": true,
             "lineCount": 9
@@ -5810,7 +6014,9 @@
         {
             "id": "textrQCCtd",
             "type": "text",
-            "body": "Let's look at which states all the tickets are given in. This is obtained by grouping the data by Registration State and counting the number of entries for each state. Since each ticket has a summons number, counting the number of Summons Numbers gives us the number of tickets. Finally, we sort on ticket counts.",
+            "body": [
+                "Let's look at which states all the tickets are given in. This is obtained by grouping the data by Registration State and counting the number of entries for each state. Since each ticket has a summons number, counting the number of Summons Numbers gives us the number of tickets. Finally, we sort on ticket counts."
+            ],
             "evaluatorReader": false
         },
         {
@@ -5818,7 +6024,10 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "x = data.groupby(\"Registration State\").count().sort(\"Summons Number\",ascending=0)[\"Summons Number\"]\nx"
+                "body": [
+                    "x = data.groupby(\"Registration State\").count().sort(\"Summons Number\",ascending=0)[\"Summons Number\"]",
+                    "x"
+                ]
             },
             "output": {
                 "result": {
@@ -5837,7 +6046,9 @@
         {
             "id": "textUFBHtT",
             "type": "text",
-            "body": "We can see that most tickets are given to cars from NY. &nbsp;But interestingly, FL is 5th on the list.&nbsp;<div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\">Now let's see which precinct gives the most tickets for parking near hydrants.&nbsp;</span></div><div><span style=\"font-size: 14px;\">Each ticket is marked with a Violation Code, where Code # 40 represents parking too close to a fire hydrant. Violation Codes are available on line at&nbsp;</span>https://nycopendata.socrata.com/Transportation/DOF-Parking-Violation-Codes/ncbg-6agr</div><div><br></div><div><span style=\"font-size: 14px;\">This analysis is accomplished similarly to the above analysis by grouping by Violation Precinct, counting the number of Violation Codes and sorting.</span><br></div>",
+            "body": [
+                "We can see that most tickets are given to cars from NY. &nbsp;But interestingly, FL is 5th on the list.&nbsp;<div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\">Now let's see which precinct gives the most tickets for parking near hydrants.&nbsp;</span></div><div><span style=\"font-size: 14px;\">Each ticket is marked with a Violation Code, where Code # 40 represents parking too close to a fire hydrant. Violation Codes are available on line at&nbsp;</span>https://nycopendata.socrata.com/Transportation/DOF-Parking-Violation-Codes/ncbg-6agr</div><div><br></div><div><span style=\"font-size: 14px;\">This analysis is accomplished similarly to the above analysis by grouping by Violation Precinct, counting the number of Violation Codes and sorting.</span><br></div>"
+            ],
             "evaluatorReader": false
         },
         {
@@ -5845,7 +6056,11 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "z = data[data[\"Violation Code\"]==40].groupby(\"Violation Precinct\").count().sort(\"Violation Code\",ascending=0)[\"Violation Code\"]\n\nz"
+                "body": [
+                    "z = data[data[\"Violation Code\"]==40].groupby(\"Violation Precinct\").count().sort(\"Violation Code\",ascending=0)[\"Violation Code\"]",
+                    "",
+                    "z"
+                ]
             },
             "output": {
                 "result": {
@@ -5864,7 +6079,9 @@
         {
             "id": "textYIpoAM",
             "type": "text",
-            "body": "Looks like the 19th precinct, on the upper west side of Manhattan is quite the outlier.&nbsp;<div><br></div><div>Moving on, we can now take a look at which cars block hydrants most often.</div>",
+            "body": [
+                "Looks like the 19th precinct, on the upper west side of Manhattan is quite the outlier.&nbsp;<div><br></div><div>Moving on, we can now take a look at which cars block hydrants most often.</div>"
+            ],
             "evaluatorReader": false
         },
         {
@@ -5872,7 +6089,11 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "z = data[data[\"Violation Code\"]==40].groupby(\"Plate ID\").count().sort(\"Plate ID\",ascending=0)[\"Plate ID\"]\n\nz"
+                "body": [
+                    "z = data[data[\"Violation Code\"]==40].groupby(\"Plate ID\").count().sort(\"Plate ID\",ascending=0)[\"Plate ID\"]",
+                    "",
+                    "z"
+                ]
             },
             "output": {
                 "result": {
@@ -5891,7 +6112,9 @@
         {
             "id": "textEGFhkj",
             "type": "text",
-            "body": "Wow. One car has blocked a hydrant 95 times (not counting the BLANKPLATE). &nbsp;Impressive. &nbsp;Let's get more details on the tickets for that plate.&nbsp;",
+            "body": [
+                "Wow. One car has blocked a hydrant 95 times (not counting the BLANKPLATE). &nbsp;Impressive. &nbsp;Let's get more details on the tickets for that plate.&nbsp;"
+            ],
             "evaluatorReader": false
         },
         {
@@ -5899,7 +6122,10 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "z = data[(data[\"Violation Code\"]==40) & (data[\"Plate ID\"]==\"62037JM\")]\nz"
+                "body": [
+                    "z = data[(data[\"Violation Code\"]==40) & (data[\"Plate ID\"]==\"62037JM\")]",
+                    "z"
+                ]
             },
             "output": {
                 "result": {
@@ -11618,7 +11844,201 @@
                 "outputArrived": true,
                 "selectedType": "Table",
                 "elapsedTime": 2399,
-                "state": {}
+                "state": {
+                    "datatablestate": {
+                        "pagination": {
+                            "use": true,
+                            "rowsToDisplay": 50,
+                            "fixLeft": false,
+                            "fixRight": false
+                        },
+                        "columnNames": [
+                            "",
+                            "Summons Number",
+                            "Plate ID",
+                            "Registration State",
+                            "Plate Type",
+                            "Issue Date",
+                            "Violation Code",
+                            "Vehicle Body Type",
+                            "Vehicle Make",
+                            "Issuing Agency",
+                            "Street Code1",
+                            "Street Code2",
+                            "Street Code3",
+                            "Vehicle Expiration Date",
+                            "Violation Location",
+                            "Violation Precinct",
+                            "Issuer Precinct",
+                            "Issuer Code",
+                            "Issuer Command",
+                            "Issuer Squad",
+                            "Violation Time",
+                            "Time First Observed",
+                            "Violation County",
+                            "Violation In Front Of Or Opposite",
+                            "House Number",
+                            "Street Name",
+                            "Intersecting Street",
+                            "Date First Observed",
+                            "Law Section",
+                            "Sub Division",
+                            "Violation Legal Code",
+                            "Days Parking In Effect    ",
+                            "From Hours In Effect",
+                            "To Hours In Effect",
+                            "Vehicle Color",
+                            "Unregistered Vehicle?",
+                            "Vehicle Year",
+                            "Meter Number",
+                            "Feet From Curb",
+                            "Violation Post Code",
+                            "Violation Description",
+                            "No Standing or Stopping Violation",
+                            "Hydrant Violation",
+                            "Double Parking Violation"
+                        ],
+                        "actualalign": [
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L",
+                            "L"
+                        ],
+                        "colorder": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24,
+                            25,
+                            26,
+                            27,
+                            28,
+                            29,
+                            30,
+                            31,
+                            32,
+                            33,
+                            34,
+                            35,
+                            36,
+                            37,
+                            38,
+                            39,
+                            40,
+                            41,
+                            42,
+                            43,
+                            44
+                        ],
+                        "getCellSho": [
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true
+                        ]
+                    }
+                }
             },
             "evaluatorReader": true,
             "lineCount": 2
@@ -11626,7 +12046,9 @@
         {
             "id": "textt3XrtG",
             "type": "text",
-            "body": "Seems to be a delivery vehicle, based on the Vehicle Body Type? &nbsp;Who knows.<div><br></div><div>What about the Vehicle Color distribution?&nbsp;</div>",
+            "body": [
+                "Seems to be a delivery vehicle, based on the Vehicle Body Type? &nbsp;Who knows.<div><br></div><div>What about the Vehicle Color distribution?&nbsp;</div>"
+            ],
             "evaluatorReader": false
         },
         {
@@ -11634,7 +12056,10 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "x = data.groupby(\"Vehicle Color\").count().sort(\"Summons Number\",ascending=0)[\"Summons Number\"]\nx"
+                "body": [
+                    "x = data.groupby(\"Vehicle Color\").count().sort(\"Summons Number\",ascending=0)[\"Summons Number\"]",
+                    "x"
+                ]
             },
             "output": {
                 "result": {
@@ -11653,13 +12078,17 @@
         {
             "id": "textJ0lvD3",
             "type": "text",
-            "body": "White Grey and Back are pretty popular.",
+            "body": [
+                "White Grey and Back are pretty popular."
+            ],
             "evaluatorReader": false
         },
         {
             "id": "textShFtd1",
             "type": "text",
-            "body": "Finally, lets take a look as some histogram plots of the distribution of tickets over the course of each hour and over the course of each day. First we'll display the data in tabular form, showing the number of tickets given for each minute of the hour.",
+            "body": [
+                "Finally, lets take a look as some histogram plots of the distribution of tickets over the course of each hour and over the course of each day. First we'll display the data in tabular form, showing the number of tickets given for each minute of the hour."
+            ],
             "evaluatorReader": false
         },
         {
@@ -11667,7 +12096,14 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "table = data\n\ntable['minute'] = table['Violation Time'].apply(lambda x: str(x)[2:4])\nx = data.groupby(\"minute\").count().sort()[\"Summons Number\"]\nx\n"
+                "body": [
+                    "table = data",
+                    "",
+                    "table['minute'] = table['Violation Time'].apply(lambda x: str(x)[2:4])",
+                    "x = data.groupby(\"minute\").count().sort()[\"Summons Number\"]",
+                    "x",
+                    ""
+                ]
             },
             "output": {
                 "result": {
@@ -11686,7 +12122,9 @@
         {
             "id": "text73qF9o",
             "type": "text",
-            "body": "There is some noisey data, but when we graph this below we can see an interesting pattern of spikes dispersed along approximately five minute intervals.",
+            "body": [
+                "There is some noisey data, but when we graph this below we can see an interesting pattern of spikes dispersed along approximately five minute intervals."
+            ],
             "evaluatorReader": false
         },
         {
@@ -11694,11 +12132,20 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "data[\"time\"]=to_datetime((data[\"Issue Date\"]+ ' '+data[\"Violation Time\"]+\"M\").str.replace(\" 00\",\" 12\"),format=\"%m/%d/%Y %I%M%p\", coerce=True)\ndata.index = data[\"time\"]\nx = data\nx[\"WeekDay\"] = x.index.weekday\nx[\"Hour\"]= x.index.hour\nx[\"Minute\"]= x.index.minute\ndata2 = x\n"
+                "body": [
+                    "data[\"time\"]=to_datetime((data[\"Issue Date\"]+ ' '+data[\"Violation Time\"]+\"M\").str.replace(\" 00\",\" 12\"),format=\"%m/%d/%Y %I%M%p\", coerce=True)",
+                    "data.index = data[\"time\"]",
+                    "x = data",
+                    "x[\"WeekDay\"] = x.index.weekday",
+                    "x[\"Hour\"]= x.index.hour",
+                    "x[\"Minute\"]= x.index.minute",
+                    "data2 = x",
+                    ""
+                ]
             },
             "output": {
                 "result": "",
-                "selectedType": "BeakerDisplay",
+                "selectedType": "Hidden",
                 "outputArrived": false,
                 "elapsedTime": 245223,
                 "state": {}
@@ -11711,7 +12158,14 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "x = data2['Minute'].hist(bins=60,range=(0,60))\nx.set_xlabel(\"Minute of Hour\") \nx.set_ylabel(\"Count\") \nx.set_title(\"Minute of Hour for Tickets Given\")\nshow()\n"
+                "body": [
+                    "x = data2['Minute'].hist(bins=60,range=(0,60))",
+                    "x.set_xlabel(\"Minute of Hour\") ",
+                    "x.set_ylabel(\"Count\") ",
+                    "x.set_title(\"Minute of Hour for Tickets Given\")",
+                    "show()",
+                    ""
+                ]
             },
             "output": {
                 "state": {},
@@ -11730,7 +12184,9 @@
         {
             "id": "text3Xk5bw",
             "type": "text",
-            "body": "Finally, we plot the hourly distribution of tickets to see at what times during the day the most tickets are handed out.",
+            "body": [
+                "Finally, we plot the hourly distribution of tickets to see at what times during the day the most tickets are handed out."
+            ],
             "evaluatorReader": false
         },
         {
@@ -11738,7 +12194,14 @@
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "x = data2['Hour'].hist(bins=60,range=(0,60))\nx.set_xlabel(\"Hour of Day\") \nx.set_ylabel(\"Count\") \nx.set_title(\"Hour of Day for Tickets Given\")\nshow()\n"
+                "body": [
+                    "x = data2['Hour'].hist(bins=60,range=(0,60))",
+                    "x.set_xlabel(\"Hour of Day\") ",
+                    "x.set_ylabel(\"Count\") ",
+                    "x.set_title(\"Hour of Day for Tickets Given\")",
+                    "show()",
+                    ""
+                ]
             },
             "output": {
                 "state": {},
@@ -11754,5 +12217,9 @@
             "evaluatorReader": true,
             "lineCount": 6
         }
-    ]
+    ],
+    "namespace": {},
+    "metadata": {
+        "publication-id": "560ea6c7-b824-4cb1-b4b5-5e8a82032b83"
+    }
 }
