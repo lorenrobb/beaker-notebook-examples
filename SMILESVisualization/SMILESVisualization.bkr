@@ -1,0 +1,1231 @@
+{
+    "beaker": "2",
+    "evaluators": [
+        {
+            "name": "Html",
+            "plugin": "Html",
+            "view": {
+                "cm": {
+                    "mode": "htmlmixed"
+                }
+            }
+        },
+        {
+            "name": "Latex",
+            "plugin": "Latex",
+            "view": {
+                "cm": {
+                    "mode": "stex"
+                }
+            }
+        },
+        {
+            "name": "JavaScript",
+            "plugin": "JavaScript",
+            "jsSetting2": "",
+            "jsSetting1": "",
+            "view": {
+                "cm": {
+                    "mode": "javascript",
+                    "background": "#FFE0F0"
+                }
+            }
+        },
+        {
+            "name": "IPython",
+            "plugin": "IPython",
+            "setup": "%matplotlib inline\nimport numpy\nimport matplotlib\nfrom matplotlib import pylab, mlab, pyplot\nnp = numpy\nplt = pyplot\nfrom IPython.display import display\nfrom IPython.core.pylabtools import figsize, getfigs\nfrom pylab import *\nfrom numpy import *\n",
+            "view": {
+                "cm": {
+                    "mode": "python"
+                }
+            }
+        }
+    ],
+    "cells": [
+        {
+            "id": "sectionrpmFCi",
+            "type": "section",
+            "title": "Visualization of  SMILES notation ",
+            "level": 1,
+            "evaluatorReader": false,
+            "collapsed": false
+        },
+        {
+            "id": "markdown011VFM",
+            "type": "markdown",
+            "body": [
+                "# Visualization of SMILES notation for structure of chemical species",
+                "## Notebook uses d3 component for representation and pubchempy puthon library for SMILES parsing",
+                "",
+                "##The simplified molecular-input line-entry system (SMILES) is a specification in form of a line notation for describing the structure of chemical species using short ASCII strings",
+                "",
+                "## Important notes:",
+                "* Need to install pubchempy library (**pip install pubchempy**)",
+                "* Put the following files in **~/.beaker/v1/web/chemData** folder:",
+                "",
+                "     - .csv file with periodic table data (pt-data.csv - can be downloaded from http://php.scripts.psu.edu/djh300/cmpsc221/p3s11-pt-data.htm)",
+                ""
+            ],
+            "evaluatorReader": false
+        },
+        {
+            "id": "code7QtltQ",
+            "type": "code",
+            "evaluator": "IPython",
+            "input": {
+                "body": [
+                    "#Vanilin",
+                    "CHEM_SPECIE = \"O=Cc1ccc(O)c(OC)c1\"",
+                    "RESOURCES_FILE_PATH = 'C:/Users/lukyanyukdv/.beaker/v1/web/chemData/'",
+                    "PERIODIC_TABLE_FILENAME = 'pt-data.csv'"
+                ]
+            },
+            "output": {
+                "state": {},
+                "selectedType": "Hidden",
+                "pluginName": "IPython",
+                "shellId": "8585E10D083E40B98D9227C084513A30",
+                "elapsedTime": 302
+            },
+            "evaluatorReader": true,
+            "lineCount": 4
+        },
+        {
+            "id": "markdownzi4kgz",
+            "type": "markdown",
+            "body": [
+                "Gets info about periodic table from file"
+            ],
+            "evaluatorReader": false
+        },
+        {
+            "id": "code72QNq9",
+            "type": "code",
+            "evaluator": "IPython",
+            "input": {
+                "body": [
+                    "import csv",
+                    "",
+                    "f = open(RESOURCES_FILE_PATH + PERIODIC_TABLE_FILENAME)",
+                    "rows = [row for row in csv.reader(f)]",
+                    "elements_array = [(row[0], row[1].strip(), row[7]) for row in rows]",
+                    ""
+                ]
+            },
+            "output": {
+                "state": {},
+                "selectedType": "Hidden",
+                "pluginName": "IPython",
+                "shellId": "8585E10D083E40B98D9227C084513A30",
+                "elapsedTime": 316
+            },
+            "evaluatorReader": true,
+            "lineCount": 6
+        },
+        {
+            "id": "markdowniHDhz0",
+            "type": "markdown",
+            "body": [
+                "Parses the SMILES string and creates data for d3 visialization"
+            ],
+            "evaluatorReader": false
+        },
+        {
+            "id": "codex8cr3Z",
+            "type": "code",
+            "evaluator": "IPython",
+            "input": {
+                "body": [
+                    "import pubchempy as pcp",
+                    "",
+                    "comps = pcp.get_compounds(CHEM_SPECIE, 'smiles')",
+                    "atoms = [comp.atoms for comp in comps]",
+                    "bonds = [comp.bonds for comp in comps]",
+                    "",
+                    "elements = [atom.element for atom in atoms[0]]",
+                    "",
+                    "periodic_atoms = [filter(lambda x: int(x[0]) == atom, elements_array) for atom in elements]",
+                    "",
+                    "atoms_array = [{ \"atom\": atom[0][1], \"size\" : int(atom[0][2]) } for atom in periodic_atoms]",
+                    "",
+                    "beaker.atoms_array = atoms_array",
+                    "",
+                    "links = [(bond.aid1, bond.aid2, bond.order) for bond in bonds[0]]",
+                    "links_array = [{ \"source\": int(str(source))-1, \"target\" : int(str(target))-1, \"bond\" : bond } for source, target, bond in links]",
+                    "beaker.links_array = links_array",
+                    ""
+                ]
+            },
+            "output": {
+                "state": {},
+                "selectedType": "Hidden",
+                "pluginName": "IPython",
+                "shellId": "8585E10D083E40B98D9227C084513A30",
+                "elapsedTime": 3647,
+                "dataresult": {
+                    "inchi": "InChI=1S/H2O/h1H2",
+                    "atoms": [
+                        {
+                            "y": -0.155,
+                            "aid": 1,
+                            "element": 8,
+                            "x": 2.5369
+                        },
+                        {
+                            "y": 0.155,
+                            "aid": 2,
+                            "element": 1,
+                            "x": 3.0739
+                        },
+                        {
+                            "y": 0.155,
+                            "aid": 3,
+                            "element": 1,
+                            "x": 2
+                        }
+                    ],
+                    "bonds": [
+                        {
+                            "aid2": 2,
+                            "aid1": 1,
+                            "order": 1
+                        },
+                        {
+                            "aid2": 3,
+                            "aid1": 1,
+                            "order": 1
+                        }
+                    ]
+                }
+            },
+            "evaluatorReader": true,
+            "lineCount": 18
+        },
+        {
+            "id": "codeA7Jqo8",
+            "type": "code",
+            "evaluator": "Html",
+            "input": {
+                "body": [
+                    "<style>",
+                    ".link line {",
+                    "  stroke: #696969;",
+                    "}",
+                    "",
+                    ".link line.separator {",
+                    "  stroke: #fff;",
+                    "  stroke-width: 2px;",
+                    "}",
+                    "",
+                    ".node circle {",
+                    "  stroke: #000;",
+                    "  stroke-width: 1.5px;",
+                    "}",
+                    "",
+                    ".node text {",
+                    "  font: 10px sans-serif;",
+                    "  pointer-events: none;",
+                    "}",
+                    "</style>",
+                    "<div id=\"chem\"></div>"
+                ]
+            },
+            "output": {
+                "state": {},
+                "result": {
+                    "type": "BeakerDisplay",
+                    "innertype": "Html",
+                    "object": "<script>\nvar beaker = bkHelper.getBeakerObject().beakerObj;\n</script>\n<style>\n.link line {\n  stroke: #696969;\n}\n\n.link line.separator {\n  stroke: #fff;\n  stroke-width: 2px;\n}\n\n.node circle {\n  stroke: #000;\n  stroke-width: 1.5px;\n}\n\n.node text {\n  font: 10px sans-serif;\n  pointer-events: none;\n}\n</style>\n<div id=\"chem\"><svg width=\"800\" height=\"800\"><g class=\"link\"><line x1=\"466.8476047638893\" y1=\"334.9549723605497\" x2=\"397.1551598737162\" y2=\"356.5316066226452\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"466.8476047638893\" y1=\"334.9549723605497\" x2=\"536.0735663895208\" y2=\"338.2511598658725\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"331.6573658747417\" y1=\"249.9973442243976\" x2=\"333.4606066009988\" y2=\"319.3629529874149\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"331.6573658747417\" y1=\"249.9973442243976\" x2=\"348.35503605242496\" y2=\"192.29491431805937\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"439.21473744038764\" y1=\"583.4644498331182\" x2=\"377.83312913679055\" y2=\"550.713669058417\" style=\"stroke-width: 6px;\"></line><line class=\"separator\" x1=\"439.21473744038764\" y1=\"583.4644498331182\" x2=\"377.83312913679055\" y2=\"550.713669058417\"></line></g><g class=\"link\"><line x1=\"397.1551598737162\" y1=\"356.5316066226452\" x2=\"392.3913941862604\" y2=\"431.64709364703225\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"397.1551598737162\" y1=\"356.5316066226452\" x2=\"333.4606066009988\" y2=\"319.3629529874149\" style=\"stroke-width: 6px;\"></line><line class=\"separator\" x1=\"397.1551598737162\" y1=\"356.5316066226452\" x2=\"333.4606066009988\" y2=\"319.3629529874149\"></line></g><g class=\"link\"><line x1=\"343.7199934424317\" y1=\"487.01585723681956\" x2=\"392.3913941862604\" y2=\"431.64709364703225\" style=\"stroke-width: 6px;\"></line><line class=\"separator\" x1=\"343.7199934424317\" y1=\"487.01585723681956\" x2=\"392.3913941862604\" y2=\"431.64709364703225\"></line></g><g class=\"link\"><line x1=\"343.7199934424317\" y1=\"487.01585723681956\" x2=\"282.205384043966\" y2=\"443.7628157256142\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"343.7199934424317\" y1=\"487.01585723681956\" x2=\"377.83312913679055\" y2=\"550.713669058417\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"392.3913941862604\" y1=\"431.64709364703225\" x2=\"450.1974656317418\" y2=\"462.7804569505186\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"333.4606066009988\" y1=\"319.3629529874149\" x2=\"278.7923622223761\" y2=\"369.2413913017127\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"282.205384043966\" y1=\"443.7628157256142\" x2=\"278.7923622223761\" y2=\"369.2413913017127\" style=\"stroke-width: 6px;\"></line><line class=\"separator\" x1=\"282.205384043966\" y1=\"443.7628157256142\" x2=\"278.7923622223761\" y2=\"369.2413913017127\"></line></g><g class=\"link\"><line x1=\"282.205384043966\" y1=\"443.7628157256142\" x2=\"227.77705115800833\" y2=\"476.559416493489\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"278.7923622223761\" y1=\"369.2413913017127\" x2=\"223.30287144304535\" y2=\"338.4435922920047\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"377.83312913679055\" y1=\"550.713669058417\" x2=\"352.441978897598\" y2=\"606.0015543155932\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"536.0735663895208\" y1=\"338.2511598658725\" x2=\"598.390759907916\" y2=\"337.57682705224477\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"536.0735663895208\" y1=\"338.2511598658725\" x2=\"542.4782921953629\" y2=\"275.4907893848146\" style=\"stroke-width: 2px;\"></line></g><g class=\"link\"><line x1=\"536.0735663895208\" y1=\"338.2511598658725\" x2=\"563.621257641347\" y2=\"397.30642066771486\" style=\"stroke-width: 2px;\"></line></g><g class=\"node\" transform=\"translate(466.8476047638893,334.9549723605497)\"><circle r=\"17.08800749063506\" style=\"fill: rgb(31, 119, 180);\"></circle><text dy=\".35em\" text-anchor=\"middle\">O</text></g><g class=\"node\" transform=\"translate(331.6573658747417,249.9973442243976)\"><circle r=\"17.08800749063506\" style=\"fill: rgb(31, 119, 180);\"></circle><text dy=\".35em\" text-anchor=\"middle\">O</text></g><g class=\"node\" transform=\"translate(439.21473744038764,583.4644498331182)\"><circle r=\"17.08800749063506\" style=\"fill: rgb(31, 119, 180);\"></circle><text dy=\".35em\" text-anchor=\"middle\">O</text></g><g class=\"node\" transform=\"translate(397.1551598737162,356.5316066226452)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(343.7199934424317,487.01585723681956)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(392.3913941862604,431.64709364703225)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(333.4606066009988,319.3629529874149)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(282.205384043966,443.7628157256142)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(278.7923622223761,369.2413913017127)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(377.83312913679055,550.713669058417)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(536.0735663895208,338.2511598658725)\"><circle r=\"17.549928774784245\" style=\"fill: rgb(174, 199, 232);\"></circle><text dy=\".35em\" text-anchor=\"middle\">C</text></g><g class=\"node\" transform=\"translate(450.1974656317418,462.7804569505186)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(227.77705115800833,476.559416493489)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(223.30287144304535,338.4435922920047)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(352.441978897598,606.0015543155932)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(598.390759907916,337.57682705224477)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(542.4782921953629,275.4907893848146)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(563.621257641347,397.30642066771486)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g><g class=\"node\" transform=\"translate(348.35503605242496,192.29491431805937)\"><circle r=\"12.165525060596439\" style=\"fill: rgb(255, 127, 14);\"></circle><text dy=\".35em\" text-anchor=\"middle\">H</text></g></svg></div>"
+                },
+                "selectedType": "BeakerDisplay",
+                "elapsedTime": 1
+            },
+            "evaluatorReader": true,
+            "lineCount": 21
+        },
+        {
+            "id": "codeWSUzrB",
+            "type": "code",
+            "evaluator": "JavaScript",
+            "input": {
+                "body": [
+                    "var width = 800,",
+                    "    height = 800;",
+                    "",
+                    "var color = d3.scale.category20();",
+                    "",
+                    "var radius = d3.scale.sqrt()",
+                    "    .range([0, 2]);",
+                    "",
+                    "var svg = d3.select(\"#chem\").append(\"svg\")",
+                    "    .attr(\"width\", width)",
+                    "    .attr(\"height\", height);",
+                    "",
+                    "var force = d3.layout.force()",
+                    "    .size([width, height])",
+                    "    .charge(-400)",
+                    "    .linkDistance(function(d) { return radius(d.source.size) + radius(d.target.size) + 20; });",
+                    "",
+                    "  force",
+                    "      .nodes(beaker.atoms_array)",
+                    "      .links(beaker.links_array)",
+                    "      .on(\"tick\", tick)",
+                    "      .start();",
+                    "",
+                    "  var link = svg.selectAll(\".link\")",
+                    "      .data(beaker.links_array)",
+                    "    .enter().append(\"g\")",
+                    "      .attr(\"class\", \"link\");",
+                    "",
+                    "  link.append(\"line\")",
+                    "      .style(\"stroke-width\", function(d) { return (d.bond * 2 - 1) * 2 + \"px\"; });",
+                    "",
+                    "  link.filter(function(d) { return d.bond > 1; }).append(\"line\")",
+                    "      .attr(\"class\", \"separator\");",
+                    "",
+                    "  var node = svg.selectAll(\".node\")",
+                    "      .data(beaker.atoms_array)",
+                    "    .enter().append(\"g\")",
+                    "      .attr(\"class\", \"node\")",
+                    "      .call(force.drag);",
+                    "",
+                    "  node.append(\"circle\")",
+                    "      .attr(\"r\", function(d) { return radius(d.size); })",
+                    "      .style(\"fill\", function(d) { return color(d.atom); });",
+                    "",
+                    "  node.append(\"text\")",
+                    "      .attr(\"dy\", \".35em\")",
+                    "      .attr(\"text-anchor\", \"middle\")",
+                    "      .text(function(d) { return d.atom; });",
+                    "",
+                    "  function tick() {",
+                    "    link.selectAll(\"line\")",
+                    "        .attr(\"x1\", function(d) { return d.source.x; })",
+                    "        .attr(\"y1\", function(d) { return d.source.y; })",
+                    "        .attr(\"x2\", function(d) { return d.target.x; })",
+                    "        .attr(\"y2\", function(d) { return d.target.y; });",
+                    "",
+                    "    node.attr(\"transform\", function(d) { return \"translate(\" + d.x + \",\" + d.y + \")\"; });",
+                    "  }",
+                    ""
+                ]
+            },
+            "output": {
+                "state": {},
+                "result": "ERROR: circular objects are not supported",
+                "selectedType": "Text",
+                "pluginName": "JavaScript",
+                "elapsedTime": 42
+            },
+            "evaluatorReader": true,
+            "lineCount": 59
+        }
+    ],
+    "namespace": {
+        "atoms_array3": {
+            "type": "TableDisplay",
+            "subtype": "ListOfMaps",
+            "columnNames": [
+                "atom",
+                "size"
+            ],
+            "values": [
+                [
+                    "8",
+                    1
+                ],
+                [
+                    "7",
+                    1
+                ],
+                [
+                    "6",
+                    1
+                ],
+                [
+                    "6",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ]
+            ],
+            "types": [
+                "string",
+                "double"
+            ]
+        },
+        "links_array3": {
+            "type": "TableDisplay",
+            "subtype": "ListOfMaps",
+            "columnNames": [
+                "source",
+                "target",
+                "bond"
+            ],
+            "values": [
+                [
+                    "1",
+                    "4",
+                    2
+                ],
+                [
+                    "2",
+                    "3",
+                    1
+                ],
+                [
+                    "2",
+                    "4",
+                    2
+                ],
+                [
+                    "3",
+                    "5",
+                    1
+                ],
+                [
+                    "3",
+                    "6",
+                    1
+                ],
+                [
+                    "3",
+                    "7",
+                    1
+                ]
+            ],
+            "types": [
+                "string",
+                "string",
+                "double"
+            ]
+        },
+        "atoms_array": {
+            "type": "TableDisplay",
+            "subtype": "ListOfMaps",
+            "columnNames": [
+                "atom",
+                "size",
+                "index",
+                "weight",
+                "x",
+                "y",
+                "px",
+                "py"
+            ],
+            "values": [
+                [
+                    "O",
+                    73,
+                    0,
+                    2,
+                    179.0884891524911,
+                    8.392875082790852,
+                    179.0884891524911,
+                    8.392875082790852
+                ],
+                [
+                    "O",
+                    73,
+                    1,
+                    2,
+                    53.011973574757576,
+                    445.1382318511605,
+                    53.011973574757576,
+                    445.1382318511605
+                ],
+                [
+                    "O",
+                    73,
+                    2,
+                    1,
+                    97.56159074604511,
+                    703.9161663502455,
+                    97.56159074604511,
+                    703.9161663502455
+                ],
+                [
+                    "C",
+                    77,
+                    3,
+                    3,
+                    256.52844198048115,
+                    423.1949435546994,
+                    256.52844198048115,
+                    423.1949435546994
+                ],
+                [
+                    "C",
+                    77,
+                    4,
+                    3,
+                    646.8401597812772,
+                    212.3956797644496,
+                    646.8401597812772,
+                    212.3956797644496
+                ],
+                [
+                    "C",
+                    77,
+                    5,
+                    3,
+                    772.1215680241585,
+                    566.5360799059272,
+                    772.1215680241585,
+                    566.5360799059272
+                ],
+                [
+                    "C",
+                    77,
+                    6,
+                    3,
+                    318.0303294211626,
+                    632.8938614577055,
+                    318.0303294211626,
+                    632.8938614577055
+                ],
+                [
+                    "C",
+                    77,
+                    7,
+                    3,
+                    617.4223493784666,
+                    246.50672134011984,
+                    617.4223493784666,
+                    246.50672134011984
+                ],
+                [
+                    "C",
+                    77,
+                    8,
+                    3,
+                    503.2353090122342,
+                    592.399475723505,
+                    503.2353090122342,
+                    592.399475723505
+                ],
+                [
+                    "C",
+                    77,
+                    9,
+                    3,
+                    220.64942605793476,
+                    739.86735958606,
+                    220.64942605793476,
+                    739.86735958606
+                ],
+                [
+                    "C",
+                    77,
+                    10,
+                    4,
+                    463.6106166988611,
+                    486.8985902518034,
+                    463.6106166988611,
+                    486.8985902518034
+                ],
+                [
+                    "H",
+                    37,
+                    11,
+                    1,
+                    347.91067745536566,
+                    777.9917469248176,
+                    347.91067745536566,
+                    777.9917469248176
+                ],
+                [
+                    "H",
+                    37,
+                    12,
+                    1,
+                    68.43839380890131,
+                    454.13266625255346,
+                    68.43839380890131,
+                    454.13266625255346
+                ],
+                [
+                    "H",
+                    37,
+                    13,
+                    1,
+                    710.192828066647,
+                    682.2998233139515,
+                    710.192828066647,
+                    682.2998233139515
+                ],
+                [
+                    "H",
+                    37,
+                    14,
+                    1,
+                    460.86392011493444,
+                    550.1865675672889,
+                    460.86392011493444,
+                    550.1865675672889
+                ],
+                [
+                    "H",
+                    37,
+                    15,
+                    1,
+                    728.1801218166947,
+                    325.4834998399019,
+                    728.1801218166947,
+                    325.4834998399019
+                ],
+                [
+                    "H",
+                    37,
+                    16,
+                    1,
+                    533.9573737233877,
+                    767.5532709807158,
+                    533.9573737233877,
+                    767.5532709807158
+                ],
+                [
+                    "H",
+                    37,
+                    17,
+                    1,
+                    520.2030664309859,
+                    264.7085875272751,
+                    520.2030664309859,
+                    264.7085875272751
+                ],
+                [
+                    "H",
+                    37,
+                    18,
+                    1,
+                    634.8194131627679,
+                    177.41699162870646,
+                    634.8194131627679,
+                    177.41699162870646
+                ]
+            ],
+            "types": [
+                "string",
+                "double",
+                "double",
+                "double",
+                "double",
+                "double",
+                "double",
+                "double"
+            ]
+        },
+        "links_array": [
+            {
+                "source": {
+                    "atom": "O",
+                    "size": 73,
+                    "index": 0,
+                    "weight": 2,
+                    "x": 179.0884891524911,
+                    "y": 8.392875082790852,
+                    "px": 179.0884891524911,
+                    "py": 8.392875082790852
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 3,
+                    "weight": 3,
+                    "x": 256.52844198048115,
+                    "y": 423.1949435546994,
+                    "px": 256.52844198048115,
+                    "py": 423.1949435546994
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "O",
+                    "size": 73,
+                    "index": 0,
+                    "weight": 2,
+                    "x": 179.0884891524911,
+                    "y": 8.392875082790852,
+                    "px": 179.0884891524911,
+                    "py": 8.392875082790852
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 10,
+                    "weight": 4,
+                    "x": 463.6106166988611,
+                    "y": 486.8985902518034,
+                    "px": 463.6106166988611,
+                    "py": 486.8985902518034
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "O",
+                    "size": 73,
+                    "index": 1,
+                    "weight": 2,
+                    "x": 53.011973574757576,
+                    "y": 445.1382318511605,
+                    "px": 53.011973574757576,
+                    "py": 445.1382318511605
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 6,
+                    "weight": 3,
+                    "x": 318.0303294211626,
+                    "y": 632.8938614577055,
+                    "px": 318.0303294211626,
+                    "py": 632.8938614577055
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "O",
+                    "size": 73,
+                    "index": 1,
+                    "weight": 2,
+                    "x": 53.011973574757576,
+                    "y": 445.1382318511605,
+                    "px": 53.011973574757576,
+                    "py": 445.1382318511605
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 18,
+                    "weight": 1,
+                    "x": 634.8194131627679,
+                    "y": 177.41699162870646,
+                    "px": 634.8194131627679,
+                    "py": 177.41699162870646
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "O",
+                    "size": 73,
+                    "index": 2,
+                    "weight": 1,
+                    "x": 97.56159074604511,
+                    "y": 703.9161663502455,
+                    "px": 97.56159074604511,
+                    "py": 703.9161663502455
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 9,
+                    "weight": 3,
+                    "x": 220.64942605793476,
+                    "y": 739.86735958606,
+                    "px": 220.64942605793476,
+                    "py": 739.86735958606
+                },
+                "bond": 2
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 3,
+                    "weight": 3,
+                    "x": 256.52844198048115,
+                    "y": 423.1949435546994,
+                    "px": 256.52844198048115,
+                    "py": 423.1949435546994
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 5,
+                    "weight": 3,
+                    "x": 772.1215680241585,
+                    "y": 566.5360799059272,
+                    "px": 772.1215680241585,
+                    "py": 566.5360799059272
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 3,
+                    "weight": 3,
+                    "x": 256.52844198048115,
+                    "y": 423.1949435546994,
+                    "px": 256.52844198048115,
+                    "py": 423.1949435546994
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 6,
+                    "weight": 3,
+                    "x": 318.0303294211626,
+                    "y": 632.8938614577055,
+                    "px": 318.0303294211626,
+                    "py": 632.8938614577055
+                },
+                "bond": 2
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 4,
+                    "weight": 3,
+                    "x": 646.8401597812772,
+                    "y": 212.3956797644496,
+                    "px": 646.8401597812772,
+                    "py": 212.3956797644496
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 5,
+                    "weight": 3,
+                    "x": 772.1215680241585,
+                    "y": 566.5360799059272,
+                    "px": 772.1215680241585,
+                    "py": 566.5360799059272
+                },
+                "bond": 2
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 4,
+                    "weight": 3,
+                    "x": 646.8401597812772,
+                    "y": 212.3956797644496,
+                    "px": 646.8401597812772,
+                    "py": 212.3956797644496
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 7,
+                    "weight": 3,
+                    "x": 617.4223493784666,
+                    "y": 246.50672134011984,
+                    "px": 617.4223493784666,
+                    "py": 246.50672134011984
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 4,
+                    "weight": 3,
+                    "x": 646.8401597812772,
+                    "y": 212.3956797644496,
+                    "px": 646.8401597812772,
+                    "py": 212.3956797644496
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 9,
+                    "weight": 3,
+                    "x": 220.64942605793476,
+                    "y": 739.86735958606,
+                    "px": 220.64942605793476,
+                    "py": 739.86735958606
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 5,
+                    "weight": 3,
+                    "x": 772.1215680241585,
+                    "y": 566.5360799059272,
+                    "px": 772.1215680241585,
+                    "py": 566.5360799059272
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 11,
+                    "weight": 1,
+                    "x": 347.91067745536566,
+                    "y": 777.9917469248176,
+                    "px": 347.91067745536566,
+                    "py": 777.9917469248176
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 6,
+                    "weight": 3,
+                    "x": 318.0303294211626,
+                    "y": 632.8938614577055,
+                    "px": 318.0303294211626,
+                    "py": 632.8938614577055
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 8,
+                    "weight": 3,
+                    "x": 503.2353090122342,
+                    "y": 592.399475723505,
+                    "px": 503.2353090122342,
+                    "py": 592.399475723505
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 7,
+                    "weight": 3,
+                    "x": 617.4223493784666,
+                    "y": 246.50672134011984,
+                    "px": 617.4223493784666,
+                    "py": 246.50672134011984
+                },
+                "target": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 8,
+                    "weight": 3,
+                    "x": 503.2353090122342,
+                    "y": 592.399475723505,
+                    "px": 503.2353090122342,
+                    "py": 592.399475723505
+                },
+                "bond": 2
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 7,
+                    "weight": 3,
+                    "x": 617.4223493784666,
+                    "y": 246.50672134011984,
+                    "px": 617.4223493784666,
+                    "py": 246.50672134011984
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 12,
+                    "weight": 1,
+                    "x": 68.43839380890131,
+                    "y": 454.13266625255346,
+                    "px": 68.43839380890131,
+                    "py": 454.13266625255346
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 8,
+                    "weight": 3,
+                    "x": 503.2353090122342,
+                    "y": 592.399475723505,
+                    "px": 503.2353090122342,
+                    "py": 592.399475723505
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 13,
+                    "weight": 1,
+                    "x": 710.192828066647,
+                    "y": 682.2998233139515,
+                    "px": 710.192828066647,
+                    "py": 682.2998233139515
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 9,
+                    "weight": 3,
+                    "x": 220.64942605793476,
+                    "y": 739.86735958606,
+                    "px": 220.64942605793476,
+                    "py": 739.86735958606
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 14,
+                    "weight": 1,
+                    "x": 460.86392011493444,
+                    "y": 550.1865675672889,
+                    "px": 460.86392011493444,
+                    "py": 550.1865675672889
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 10,
+                    "weight": 4,
+                    "x": 463.6106166988611,
+                    "y": 486.8985902518034,
+                    "px": 463.6106166988611,
+                    "py": 486.8985902518034
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 15,
+                    "weight": 1,
+                    "x": 728.1801218166947,
+                    "y": 325.4834998399019,
+                    "px": 728.1801218166947,
+                    "py": 325.4834998399019
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 10,
+                    "weight": 4,
+                    "x": 463.6106166988611,
+                    "y": 486.8985902518034,
+                    "px": 463.6106166988611,
+                    "py": 486.8985902518034
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 16,
+                    "weight": 1,
+                    "x": 533.9573737233877,
+                    "y": 767.5532709807158,
+                    "px": 533.9573737233877,
+                    "py": 767.5532709807158
+                },
+                "bond": 1
+            },
+            {
+                "source": {
+                    "atom": "C",
+                    "size": 77,
+                    "index": 10,
+                    "weight": 4,
+                    "x": 463.6106166988611,
+                    "y": 486.8985902518034,
+                    "px": 463.6106166988611,
+                    "py": 486.8985902518034
+                },
+                "target": {
+                    "atom": "H",
+                    "size": 37,
+                    "index": 17,
+                    "weight": 1,
+                    "x": 520.2030664309859,
+                    "y": 264.7085875272751,
+                    "px": 520.2030664309859,
+                    "py": 264.7085875272751
+                },
+                "bond": 1
+            }
+        ],
+        "atoms_array22": {
+            "values": [
+                [
+                    "8",
+                    1
+                ],
+                [
+                    "7",
+                    1
+                ],
+                [
+                    "6",
+                    1
+                ],
+                [
+                    "6",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ]
+            ],
+            "subtype": "ListOfMaps",
+            "type": "TableDisplay",
+            "columnNames": [
+                "atom",
+                "size"
+            ]
+        },
+        "links_array22": {
+            "values": [
+                [
+                    0,
+                    4,
+                    2
+                ],
+                [
+                    1,
+                    3,
+                    1
+                ],
+                [
+                    1,
+                    4,
+                    2
+                ],
+                [
+                    2,
+                    5,
+                    1
+                ],
+                [
+                    2,
+                    6,
+                    1
+                ],
+                [
+                    2,
+                    7,
+                    1
+                ]
+            ],
+            "subtype": "ListOfMaps",
+            "type": "TableDisplay",
+            "columnNames": [
+                "\"source\"",
+                "target",
+                "bond"
+            ]
+        },
+        "test_atoms_array": {
+            "values": [
+                [
+                    "8",
+                    1
+                ],
+                [
+                    "7",
+                    1
+                ],
+                [
+                    "6",
+                    1
+                ],
+                [
+                    "6",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ],
+                [
+                    "1",
+                    1
+                ]
+            ],
+            "subtype": "ListOfMaps",
+            "type": "TableDisplay",
+            "columnNames": [
+                "atom",
+                "size"
+            ]
+        },
+        "test_links_array": {
+            "values": [
+                [
+                    1,
+                    4,
+                    2
+                ],
+                [
+                    2,
+                    3,
+                    1
+                ],
+                [
+                    2,
+                    4,
+                    2
+                ],
+                [
+                    3,
+                    5,
+                    1
+                ],
+                [
+                    3,
+                    6,
+                    1
+                ],
+                [
+                    3,
+                    7,
+                    1
+                ]
+            ],
+            "subtype": "ListOfMaps",
+            "type": "TableDisplay",
+            "columnNames": [
+                "source",
+                "target",
+                "bond"
+            ]
+        }
+    },
+    "metadata": {
+        "publication-id": "5612aede-04cc-48b9-8984-33becbf1d1bd"
+    }
+}
